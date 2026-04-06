@@ -5,6 +5,7 @@ using namespace std;
 
 // Add your test cases here
 
+
 TEST(test_list_empty_and_size) {
     List<int> list;
     ASSERT_TRUE(list.empty());
@@ -77,7 +78,7 @@ TEST(test_iterator_basic) {
     ++it;
     ASSERT_TRUE(it == list.end());
 }
-
+// g
 TEST(test_iterator_decrease) {
     List<int> list;
     list.push_back(1);
@@ -144,7 +145,7 @@ TEST(test_list_copy_3) {
     ASSERT_EQUAL(b.front(), 1);
     ASSERT_EQUAL(b.back(), 1);
 }
-
+// g
 TEST(test_list_copy_empty) {
     List<int> a;
     List<int> b;
@@ -211,10 +212,10 @@ TEST(test_pop_back) {
     list.push_back(2);
     list.push_back(3);
     list.pop_back();
-    list.push_back(99);
+    list.push_back(10);
     List<int>::Iterator it = list.end();
     --it;
-    ASSERT_EQUAL(*it, 99);
+    ASSERT_EQUAL(*it, 10);
     --it;
     ASSERT_EQUAL(*it, 2);
     --it;
@@ -295,9 +296,69 @@ TEST(test_iterator_2) {
     list.push_back(2);
     List<int>::Iterator it = list.begin();
     List<int>::Iterator old = it++;
-    // old should point to first element, it should point to second
     ASSERT_EQUAL(*old, 1);
     ASSERT_EQUAL(*it, 2);
+}
+
+TEST(test_list_copy_4) {
+    List<int> a;
+    a.push_back(1);
+    a.push_back(2);
+    a.push_back(3);
+    List<int> &ref = a;
+    a = ref;
+    ASSERT_EQUAL(a.size(), 3);
+    ASSERT_EQUAL(a.front(), 1);
+    ASSERT_EQUAL(a.back(), 3);
+}
+
+TEST(test_list_copy_5) {
+    List<int> a;
+    a.push_back(1);
+    a.push_back(2);
+    List<int> b;
+    List<int> c;
+    c = b = a;
+    ASSERT_EQUAL(b.size(), 2);
+    ASSERT_EQUAL(c.size(), 2);
+    ASSERT_EQUAL(c.front(), 1);
+    ASSERT_EQUAL(c.back(), 2);
+}
+
+TEST(test_list_assignment) {
+    List<int> a;
+    for (int i = 0; i < 4; ++i) {
+        a.push_back(i);
+    }
+    List<int> b;
+    b.push_back(10);
+    b = a;
+    ASSERT_EQUAL(b.size(), 4);
+    int j = 0;
+    for (List<int>::Iterator it = b.begin(); it != b.end(); ++it, ++j) {
+        ASSERT_EQUAL(*it, j);
+    }
+    List<int>::Iterator bwd = b.end();
+    --bwd;
+    ASSERT_EQUAL(*bwd, 3);
+    --bwd;
+    ASSERT_EQUAL(*bwd, 2);
+}
+
+TEST(test_list_assignment_2) {
+    List<int> a;
+    a.push_back(10);
+    List<int> b;
+    b.push_back(1);
+    b.push_back(2);
+    b = a;
+    ASSERT_EQUAL(b.size(), 1);
+    ASSERT_EQUAL(b.front(), 10);
+    ASSERT_EQUAL(b.back(), 10);
+    List<int>::Iterator it = b.begin();
+    ASSERT_EQUAL(*it, 10);
+    ++it;
+    ASSERT_TRUE(it == b.end());
 }
 
 TEST_MAIN()
