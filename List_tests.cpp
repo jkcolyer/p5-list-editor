@@ -361,4 +361,35 @@ TEST(test_list_assignment_2) {
     ASSERT_TRUE(it == b.end());
 }
 
+TEST(test_erase_3) {
+    List<int> list;
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+
+    list.erase(list.begin());
+    ASSERT_EQUAL(list.size(), 2);
+    ASSERT_EQUAL(list.front(), 2);
+    ASSERT_EQUAL(list.back(), 3);
+
+    List<int>::Iterator it = list.begin();
+    ASSERT_EQUAL(*it, 2);
+    ++it;
+    ASSERT_EQUAL(*it, 3);
+    ++it;
+    ASSERT_TRUE(it == list.end());
+
+    List<int>::Iterator last = list.end();
+    --last;
+    list.erase(last);
+    ASSERT_EQUAL(list.size(), 1);
+    ASSERT_EQUAL(list.front(), 2);
+    ASSERT_EQUAL(list.back(), 2);
+
+    List<int>::Iterator bwd = list.end();
+    --bwd;
+    ASSERT_EQUAL(*bwd, 2);
+    ASSERT_TRUE(bwd == list.begin());
+}
+
 TEST_MAIN()
